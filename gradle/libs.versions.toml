@@ -1,0 +1,72 @@
+[versions]
+agp = "8.5.2"
+androidxCoreKtx = "1.12.0"
+androidxJunit = "1.1.5"
+androidxLifecycleViewmodelKtx = "2.6.2"
+appcompatVersion = "1.6.1"
+coreKtxVersion = "1.13.1"
+espressoCoreVersion = "3.5.1"
+googleMaterial = "1.10.0"
+kotlin = "1.9.22"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+kotlinxCoroutinesCore = "1.7.1"
+lifecycleLivedataKtx = "2.8.4"
+lifecycleLivedataKtxVersion = "2.6.2"
+lifecycleVersion = "2.6.2"
+lifecycleViewmodelKtx = "2.8.4"
+lifecycleViewmodelKtxVersion = "2.8.4"
+material = "1.12.0"
+activity = "1.9.1"
+constraintlayout = "2.1.4"
+materialVersion = "1.12.0"
+navVersion = "2.7.5"
+objecthunter = "0.4.8"
+room-runtime = "2.6.1"
+room-compiler = "2.6.1"
+room-ktx = "2.6.1"
+
+[libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
+androidx-appcomat = { module = "androidx.appcompat:appcomat", version.ref = "appcompat" }
+androidx-appcompat-v161 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
+androidx-espresso-core-v351 = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
+androidx-junit-v115 = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }
+androidx-lifecycle-compiler = { module = "androidx.lifecycle:lifecycle-compiler", version.ref = "lifecycleVersion" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-livedata-ktx-v260 = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-lifecycle-livedata-ktx-v262 = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtxVersion" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+androidx-lifecycle-viewmodel-ktx-v260 = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtxVersion" }
+androidx-lifecycle-viewmodel-ktx-v262 = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycleViewmodelKtx" }
+androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navVersion" }
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navVersion" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navVersion" }
+core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
+google-material-v1100 = { module = "com.google.android.material:material", version.ref = "googleMaterial" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+material-v1100 = { module = "com.google.android.material:material", version.ref = "materialVersion" }
+objecthunter = {group = "net.objecthunter", name = "exp4j", version.ref = "objecthunter"}
+
+room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room-runtime"}
+room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room-compiler"}
+room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room-ktx"}
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+

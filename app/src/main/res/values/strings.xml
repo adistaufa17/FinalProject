@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Final Project</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="icon_person">icon person</string>
+    <string name="icon_school">icon school</string>
+    <string name="school">School</string>
+    <string name="friends_school">Friends School</string>
+    <string name="icon_bio">icon bio</string>
+    <string name="name">Name</string>
+    <string name="detail">Detail</string>
+    <string name="bio">Bio</string>
+    <string name="button_add">button add</string>
+    <string name="button_back">button back</string>
+    <string name="button_delete">button delete</string>
+    <string name="todo">TODO</string>
+    <string name="button_edit">button edit</string>
+    <string name="friends_bio">Friends Bio</string>
+    <string name="friends_name">Friends Name</string>
+    <string name="photo_friend">photo friend</string>
+</resources>
