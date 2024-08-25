@@ -68,4 +68,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx.v262)
     // Annotation processor
     ksp(libs.androidx.lifecycle.compiler)
+    //SDP SSP
+    implementation (libs.sdp.android)
+    implementation (libs.ssp.android)
 }

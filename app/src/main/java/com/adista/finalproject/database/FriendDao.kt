@@ -7,7 +7,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.adista.finalproject.database.Friend
 
 @Dao
 interface FriendDao {
@@ -20,6 +19,6 @@ interface FriendDao {
     @Delete
     suspend fun deleteFriend(friend: Friend)
 
-    @Query("SELECT * FROM FRIENDS ORDER BY id DESC")
+    @Query("SELECT * FROM friends ORDER BY id DESC")
     fun getAllFriends(): LiveData<List<Friend>>
 }

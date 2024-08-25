@@ -28,6 +28,8 @@ objecthunter = "0.4.8"
 room-runtime = "2.6.1"
 room-compiler = "2.6.1"
 room-ktx = "2.6.1"
+sdpAndroid = "1.1.1"
+sspAndroid = "1.1.1"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
@@ -65,6 +67,8 @@ objecthunter = {group = "net.objecthunter", name = "exp4j", version.ref = "objec
 room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room-runtime"}
 room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room-compiler"}
 room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room-ktx"}
+sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
+ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sspAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
