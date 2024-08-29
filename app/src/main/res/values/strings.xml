@@ -23,6 +23,8 @@
     <string name="friend_school">Friend School</string>
     <string name="friend_bio">Friend Bio</string>
     <string name="op">Let\'s be friend</string>
-    <string name="des">Kelas Industri not only develop hard skills adn soft skills, but we also helpd develop life skills according to your competence.</string>
-    <string name="strt">Let\'s Start</string>
+    <string name="des">Kelas Industri not only develop hard skills and soft skills, but we also helpd develop life skills according to your competence.</string>
+    <string name="start">Let\'s Start</string>
+    <string name="friendname">Friend Name</string>
+    <string name="schooll">School</string>
 </resources>

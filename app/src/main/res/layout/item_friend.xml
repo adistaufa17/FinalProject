@@ -7,6 +7,7 @@
         android:layout_width="180dp"
         android:layout_height="250dp"
         android:layout_margin="10dp"
+        android:focusable="true"
         app:cardCornerRadius="10dp"
         android:foreground="?attr/selectableItemBackground"
         android:clickable="true">
@@ -17,10 +18,12 @@
             android:background="#fff">
             <ImageView
                 android:id="@+id/iv_photo"
+                android:src="@drawable/profile"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
                 android:layout_margin="5dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:contentDescription="@string/photo_friend"/>
 
             <TextView
                 android:id="@+id/tv_name"
@@ -28,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="10dp"
-                android:text="Friend Name"
+                android:text="@string/friendname"
                 android:textStyle="bold" />
 
             <TextView
@@ -37,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:textColor="@android:color/darker_gray"
-                android:text="School"/>
+                android:text="@string/schooll"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>
