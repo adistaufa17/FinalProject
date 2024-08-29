@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -16,14 +16,16 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="#fff">
+
             <ImageView
                 android:id="@+id/iv_photo"
-                android:src="@drawable/profile"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
-                android:layout_margin="5dp"
                 android:layout_gravity="center"
-                android:contentDescription="@string/photo_friend"/>
+                android:layout_margin="5dp"
+                android:contentDescription="@string/photo_friend"
+                android:src="@drawable/profile"
+                tools:ignore="ImageContrastCheck" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -39,8 +41,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
+                android:text="@string/schooll"
                 android:textColor="@android:color/darker_gray"
-                android:text="@string/schooll"/>
+                tools:ignore="TextContrastCheck" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

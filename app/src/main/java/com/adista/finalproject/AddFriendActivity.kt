@@ -36,7 +36,7 @@ class AddFriendActivity : AppCompatActivity() {
     private val imgCAPTURE = 1
     private val reqImgPICK = 2
     private var selectedImageUri: Uri? = null
-    private var currentPhotoPath: String? = null
+    private var currentPhotoPath: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

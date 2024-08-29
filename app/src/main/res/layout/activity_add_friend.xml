@@ -109,7 +109,8 @@
                 android:autofillHints="name"
                 android:hint="@string/friend_name"
                 android:inputType="text"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,7 +142,8 @@
                 android:autofillHints="school"
                 android:hint="@string/friend_school"
                 android:inputType="text"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                tools:ignore="VisualLintTextFieldSize" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -174,7 +176,7 @@
                 android:gravity="top"
                 android:hint="@string/friend_bio"
                 android:inputType="textMultiLine"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
 
         </LinearLayout>
 
