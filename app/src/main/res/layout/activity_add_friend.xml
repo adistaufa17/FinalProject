@@ -37,7 +37,7 @@
                 android:layout_marginStart="180dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/white"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/button_save"
                 android:src="@drawable/ic_save"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
@@ -63,7 +63,7 @@
                 android:id="@+id/btn_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_15sdp"
+                android:layout_margin="25dp"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/ic_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -73,111 +73,63 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/_6ssp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <!-- Name -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_person" />
+                    android:hint="@string/name"
+                    android:text="@string/friends_name"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/name"
-                    android:textStyle="bold" />
 
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_name"
+            <!-- School -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="name"
-                android:hint="@string/friend_name"
-                android:inputType="text"
-                android:minHeight="48dp"
-                tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="16dp">
 
-            <LinearLayout
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/school"
+                    android:text="@string/friends_school"
+                    android:drawableStart="@drawable/ic_school"
+                    android:drawablePadding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <!-- Bio -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                tools:ignore="UseCompoundDrawables">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_bio"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_school" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/school"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_school"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="school"
-                android:hint="@string/friend_school"
-                android:inputType="text"
-                android:minHeight="48dp"
-                tools:ignore="VisualLintTextFieldSize" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_info" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/bio"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_bio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="bio"
-                android:gravity="top"
-                android:hint="@string/friend_bio"
-                android:inputType="textMultiLine"
-                tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
-
+                    android:hint="@string/bio"
+                    android:text="@string/friends_bio"
+                    android:drawableStart="@drawable/ic_info"
+                    android:drawablePadding="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
 
