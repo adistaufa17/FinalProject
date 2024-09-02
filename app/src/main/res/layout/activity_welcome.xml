@@ -18,7 +18,7 @@
         android:id="@+id/tv_welcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Let's be friend"
+        android:text="@string/start"
         android:textSize="30sp"
         android:layout_margin="15dp"
         android:textStyle="bold"
@@ -28,14 +28,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:text="Kelas Industri not only develop hard skills adn soft skills, but we also helpd develop life skills according to your competence. "
-        tools:ignore="HardcodedText" />
+        android:text="@string/des"
+        tools:ignore="HardcodedText,VisualLintLongText" />
 
     <Button
         android:id="@+id/btn_Start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="Let's Start"
-        tools:ignore="HardcodedText" />
+        android:text="@string/start"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
 </LinearLayout>
