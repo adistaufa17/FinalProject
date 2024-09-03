@@ -18,4 +18,13 @@
     <string name="friends_bio">Friends Bio</string>
     <string name="friends_name">Friends Name</string>
     <string name="photo_friend">photo friend</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="button_save">button_save</string>
+    <string name="detail_friend">Detail Friend</string>
+    <string name="edit_friend">Edit Friend</string>
+    <string name="button_camera">button camera</string>
+    <string name="welcome_pictures">Welcome pictures</string>
+    <string name="let_s_be_friend">Let\'s be friend</string>
+    <string name="desc_welcome">Kelas Industri not only develop hard skills adn soft skills, but we also helpd develop life skills according to your competence.</string>
+    <string name="let_s_start">Let\'s Start</string>
 </resources>

@@ -18,14 +18,15 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:background="@color/white"
+                android:contentDescription="@string/button_back"
                 android:src="@drawable/ic_back"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,RedundantDescriptionCheck" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Add Friend"
+                android:text="@string/add_friend"
                 android:textSize="23sp"/>
 
             <ImageButton
@@ -35,6 +36,7 @@
                 android:layout_marginStart="180dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/white"
+                android:contentDescription="@string/button_save"
                 android:src="@drawable/ic_save"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
@@ -48,7 +50,8 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="420dp"
-                android:src="@color/black"
+                android:contentDescription="@string/photo_friend"
+                android:src="@drawable/bg_photo_person"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,10 +62,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:src="@drawable/ic_add"
+                android:contentDescription="@string/button_camera"
+                android:src="@drawable/ic_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck,RedundantDescriptionCheck" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -74,88 +78,65 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/name"
+                    android:text="@string/friends_name"
+                    android:drawableStart="@drawable/ic_person"
+                    android:drawablePadding="8dp"
+                    tools:ignore="VisualLintTextFieldSize" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_school"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/school"
+                    android:text="@string/friends_school"
+                    android:drawableStart="@drawable/ic_school"
+                    android:drawablePadding="8dp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_bio"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_person" />
+                    android:hint="@string/bio"
+                    android:text="@string/friends_bio"
+                    android:drawableStart="@drawable/ic_info"
+                    android:drawablePadding="8dp"
+                    tools:ignore="VisualLintTextFieldSize" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Name"
-                    android:textStyle="bold" />
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Friend name"
-                android:minHeight="48dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_school" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="School"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Friend School"
-                android:minHeight="48dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_info" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Bio"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/et_bio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="Friend Bio"
-                android:inputType="textMultiLine"
-                tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
 
