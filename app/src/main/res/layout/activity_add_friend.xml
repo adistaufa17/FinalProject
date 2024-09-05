@@ -50,7 +50,7 @@
             <ImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
-                android:layout_height="420dp"
+                android:layout_height="400dp"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/profile"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +92,8 @@
                     android:hint="@string/name"
                     android:text="@string/friends_name"
                     android:drawableStart="@drawable/ic_person"
-                    android:drawablePadding="8dp" />
+                    android:drawablePadding="8dp"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -110,7 +111,8 @@
                     android:hint="@string/school"
                     android:text="@string/friends_school"
                     android:drawableStart="@drawable/ic_school"
-                    android:drawablePadding="8dp" />
+                    android:drawablePadding="8dp"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -128,7 +130,8 @@
                     android:hint="@string/bio"
                     android:text="@string/friends_bio"
                     android:drawableStart="@drawable/ic_info"
-                    android:drawablePadding="8dp" />
+                    android:drawablePadding="8dp"
+                    tools:ignore="VisualLintTextFieldSize" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

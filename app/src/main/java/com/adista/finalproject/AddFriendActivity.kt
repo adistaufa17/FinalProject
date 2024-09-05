@@ -95,7 +95,6 @@ class AddFriendActivity : AppCompatActivity() {
                         photoFile
                     )
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    Log.d("AddFriendActivity", "Photo URI: $photoURI") // Log URI yang digunakan
                     startActivityForResult(takePictureIntent, imgCAPTURE)
                 } catch (ex: IOException) {
                     Toast.makeText(this, "Error occurred while creating the File", Toast.LENGTH_SHORT).show()
@@ -104,22 +103,19 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
-
     @SuppressLint("SimpleDateFormat")
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val imageFile = File.createTempFile(
+        return File.createTempFile(
             "JPEG_${timeStamp}_",
             ".jpg",
             storageDir
-        )
-        currentPhotoPath = imageFile.absolutePath
-        Log.d("AddFriendActivity", "Image file path: $currentPhotoPath")
-        return imageFile
+        ).apply {
+            currentPhotoPath = absolutePath
+        }
     }
-
 
     private fun choosePhotoFromGallery() {
         val pickPhotoIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -137,6 +133,7 @@ class AddFriendActivity : AppCompatActivity() {
                         if (file.exists()) {
                             val bitmap = BitmapFactory.decodeFile(it)
                             binding.ivPhoto.setImageBitmap(bitmap)
+                            selectedImageUri = Uri.fromFile(file) // Set selectedImageUri ke file yang baru diambil
                         } else {
                             Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
                         }
@@ -146,6 +143,7 @@ class AddFriendActivity : AppCompatActivity() {
                     val uri = data?.data
                     if (uri != null) {
                         loadImageFromUri(uri)
+                        selectedImageUri = uri // Set selectedImageUri setelah memilih gambar dari galeri
                     } else {
                         Toast.makeText(this, "Image URI is null", Toast.LENGTH_SHORT).show()
                     }
@@ -153,9 +151,6 @@ class AddFriendActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
 
     private fun loadImageFromUri(uri: Uri) {
         if (isFileExists(uri)) {
@@ -172,7 +167,6 @@ class AddFriendActivity : AppCompatActivity() {
             Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     private fun showSaveConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
@@ -220,5 +214,4 @@ class AddFriendActivity : AppCompatActivity() {
             false
         }
     }
-
 }

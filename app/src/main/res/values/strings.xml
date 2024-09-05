@@ -28,4 +28,5 @@
     <string name="friendname">Friend Name</string>
     <string name="schooll">School</string>
     <string name="button_save">button_save</string>
+    <string name="edit_friend">Edit Friend</string>
 </resources>

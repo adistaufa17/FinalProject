@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (deniedPermissions.isNotEmpty()) {
-            requestPermissionLauncher.launch(arrayOf(deniedPermissions.first()))
+            requestPermissionLauncher.launch(deniedPermissions.toTypedArray()) // Menggunakan toTypedArray() untuk meluncurkan semua izin yang ditolak
         }
     }
 

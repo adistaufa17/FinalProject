@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/main"
         tools:context=".pertemuan12.ListFriendActivity">
 
         <androidx.recyclerview.widget.RecyclerView
