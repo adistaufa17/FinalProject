@@ -1,13 +1,13 @@
 [versions]
 agp = "8.5.2"
-androidxCoreKtx = "1.12.0"
-androidxCoreKtxVersion = "1.6.0"
-androidxJunit = "1.1.5"
-androidxLifecycleViewmodelKtx = "2.6.2"
-appcompatVersion = "1.6.1"
+androidxCoreKtx = "1.13.1"
+androidxCoreKtxVersion = "1.13.1"
+androidxJunit = "1.2.1"
+androidxLifecycleViewmodelKtx = "2.8.5"
+appcompatVersion = "1.7.0"
 coreKtxVersion = "1.13.1"
-espressoCoreVersion = "3.5.1"
-googleMaterial = "1.10.0"
+espressoCoreVersion = "3.6.1"
+googleMaterial = "1.12.0"
 kotlin = "1.9.22"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -15,16 +15,16 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesCore = "1.7.1"
-lifecycleLivedataKtx = "2.8.4"
-lifecycleLivedataKtxVersion = "2.6.2"
-lifecycleVersion = "2.6.2"
-lifecycleViewmodelKtx = "2.8.4"
-lifecycleViewmodelKtxVersion = "2.8.4"
+lifecycleLivedataKtx = "2.8.5"
+lifecycleLivedataKtxVersion = "2.8.5"
+lifecycleVersion = "2.8.5"
+lifecycleViewmodelKtx = "2.8.5"
+lifecycleViewmodelKtxVersion = "2.8.5"
 material = "1.12.0"
-activity = "1.9.1"
+activity = "1.9.2"
 constraintlayout = "2.1.4"
 materialVersion = "1.12.0"
-navVersion = "2.7.5"
+navVersion = "2.8.0"
 objecthunter = "0.4.8"
 room-runtime = "2.6.1"
 room-compiler = "2.6.1"
@@ -35,7 +35,9 @@ sspAndroid = "1.1.1"
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-appcomat = { module = "androidx.appcompat:appcomat", version.ref = "appcompat" }
+#noinspection SimilarGradleDependency
 androidx-appcompat-v161 = { module = "androidx.appcompat:appcompat", version.ref = "appcompatVersion" }
+#noinspection SimilarGradleDependency
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 androidx-core-ktx-v160 = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtxVersion" }
