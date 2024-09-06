@@ -1,15 +1,15 @@
 package com.adista.finalproject
-
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,45 +19,42 @@ import com.adista.finalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private val permisionReqCD = 100
     private lateinit var binding: ActivityMainBinding
     private val friendViewModel: FriendViewModel by viewModels()
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        if (permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true &&
-            permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] == true) {
-            // Izin diberikan
-        } else {
-            Toast.makeText(this, "Permission denied. Unable to access images.", Toast.LENGTH_SHORT).show()
-        }
+        handlePermissionResults(permissions)
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Enable edge-to-edge display
         enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Check and request permissions
-        checkPermissions()
+        checkAndRequestPermissions()
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        // Set padding based on system bars
+        val mainView = findViewById<View>(R.id.main)
+        mainView?.let { view ->
+            ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+                insets
+            }
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-
+        // Handle button click to navigate to AddFriendActivity
         binding.btnAdd.setOnClickListener {
-            // Intent untuk pindah ke AddFriendActivity dengan izin URI
+            // Intent to go to AddFriendActivity with URI permission
             val intent = Intent(this, AddFriendActivity::class.java)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Berikan izin membaca URI
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivity(intent)
         }
 
@@ -67,11 +64,19 @@ class MainActivity : AppCompatActivity() {
 
         // Observe data changes
         friendViewModel.getAllFriends().observe(this) { friends ->
-            adapter.updateData(friends)  // Modify adapter to use updateData method
+            adapter.updateData(friends)
         }
     }
 
-    private fun checkPermissions() {
+    private fun handlePermissionResults(permissions: Map<String, Boolean>) {
+        if (permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true && permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] == true) {
+            Toast.makeText(this, "Permission granted. You can now load images.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Permission denied. Unable to access images.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun checkAndRequestPermissions() {
         val permissions = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -83,20 +88,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (deniedPermissions.isNotEmpty()) {
-            requestPermissionLauncher.launch(arrayOf(deniedPermissions.first()))
+            requestPermissionLauncher.launch(deniedPermissions.toTypedArray())
         }
     }
 
+    // Other methods and overrides can remain as they are
 
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == permisionReqCD) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission granted. You can now load images.", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Permission denied. Unable to access images.", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
 }
