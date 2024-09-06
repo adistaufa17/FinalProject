@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.adista.finalproject.database.Friend
 import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityDetailFriendBinding
 
