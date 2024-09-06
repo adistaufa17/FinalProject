@@ -9,8 +9,7 @@ import com.adista.finalproject.R
 import com.adista.finalproject.databinding.ItemFriendBinding
 import java.io.FileNotFoundException
 
-class FriendAdapter(private var friends: List<Friend>) :
-    RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+class FriendAdapter(private var friends: List<Friend>) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
 
     inner class FriendViewHolder(val binding: ItemFriendBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -37,7 +36,6 @@ class FriendAdapter(private var friends: List<Friend>) :
             holder.binding.ivPhoto.setImageResource(R.drawable.profile)
         }
     }
-
 
     override fun getItemCount(): Int {
         return friends.size

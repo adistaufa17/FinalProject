@@ -1,4 +1,5 @@
 package com.adista.finalproject
+
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -18,7 +19,6 @@ import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private val friendViewModel: FriendViewModel by viewModels()
 
@@ -93,5 +93,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Other methods and overrides can remain as they are
-
 }
+

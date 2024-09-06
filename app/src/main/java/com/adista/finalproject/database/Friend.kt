@@ -11,3 +11,4 @@ data class Friend(
     var bio: String,
     var photo: String
 )
+
