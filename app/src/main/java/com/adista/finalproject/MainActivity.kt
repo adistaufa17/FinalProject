@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -69,6 +71,24 @@ class MainActivity : AppCompatActivity() {
         friendViewModel.getAllFriends().observe(this) { friends ->
             adapter.updateData(friends)  // Modify adapter to use updateData method
         }
+
+        val searchButton: ImageView = findViewById(R.id.searchButton)
+        val searchEditText: EditText = findViewById(R.id.searchEditText)
+
+        searchButton.setOnClickListener {
+            val searchQuery = searchEditText.text.toString().trim() // Trim whitespace from query
+            if (searchQuery.isEmpty()) {
+                // Show all friends if search query is empty
+                friendViewModel.getAllFriends().observe(this) { friends ->
+                    adapter.updateData(friends)
+                }
+            } else {
+                // Filter friends based on search query
+                val filteredFriends = adapter.filter(searchQuery)
+                adapter.updateData(filteredFriends)
+            }
+        }
+
     }
 
     private fun checkPermissions() {

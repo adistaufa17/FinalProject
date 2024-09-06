@@ -49,4 +49,8 @@ class FriendAdapter(private var friends: List<Friend>) :
         friends = newFriends
         notifyDataSetChanged()
     }
+
+    fun filter(query: String): List<Friend> {
+        return friends.filter { friend -> friend.name.toLowerCase().contains(query.toLowerCase()) }
+    }
 }
