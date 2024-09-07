@@ -5,9 +5,12 @@ package com.adista.finalproject
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -26,6 +29,7 @@ import com.adista.finalproject.databinding.ActivityAddFriendBinding
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -134,7 +138,7 @@ class AddFriendActivity : AppCompatActivity() {
                         if (file.exists()) {
                             val bitmap = BitmapFactory.decodeFile(it)
                             binding.ivPhoto.setImageBitmap(bitmap)
-                            selectedImageUri = Uri.fromFile(file) // Set selectedImageUri ke file yang baru diambil
+                            selectedImageUri = Uri.fromFile(file)
                         } else {
                             Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
                         }
@@ -143,8 +147,9 @@ class AddFriendActivity : AppCompatActivity() {
                 reqImgPICK -> {
                     val uri = data?.data
                     if (uri != null) {
-                        loadImageFromUri(uri)
-                        selectedImageUri = uri // Set selectedImageUri setelah memilih gambar dari galeri
+                        val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                        binding.ivPhoto.setImageBitmap(bitmap)
+                        selectedImageUri = uri
                     } else {
                         Toast.makeText(this, "Image URI is null", Toast.LENGTH_SHORT).show()
                     }
@@ -152,6 +157,7 @@ class AddFriendActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun loadImageFromUri(uri: Uri) {
         if (isFileExists(uri)) {
@@ -185,14 +191,15 @@ class AddFriendActivity : AppCompatActivity() {
     private fun saveFriendDataToDatabase() {
         val name = binding.etName.text.toString()
         val school = binding.etSchool.text.toString()
-        val photoUri = selectedImageUri?.toString() ?: currentPhotoPath
+        val bitmap = (binding.ivPhoto.drawable as BitmapDrawable).bitmap
+        val photoPath = saveImageToInternalStorage(applicationContext, bitmap)
 
-        if (name.isBlank() || school.isBlank() || photoUri.isNullOrEmpty()) {
+        if (name.isBlank() || school.isBlank() || photoPath.isNullOrEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val friend = Friend(name = name, school = school, bio = "", photo = photoUri)
+        val friend = Friend(name = name, school = school, bio = "", photo = photoPath)
 
         lifecycleScope.launch {
             try {
@@ -215,6 +222,21 @@ class AddFriendActivity : AppCompatActivity() {
             false
         }
     }
+
+    fun saveImageToInternalStorage(applicationContext: Context, bitmap: Bitmap): String {
+        val fileName = "${System.currentTimeMillis()}.jpg"
+        val file = File(getDir("images", Context.MODE_PRIVATE), fileName)
+        try {
+            val fos = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            fos.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return file.absolutePath
+    }
+
+
 }
 
 
