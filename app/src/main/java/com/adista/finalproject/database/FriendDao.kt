@@ -21,4 +21,9 @@ interface FriendDao {
 
     @Query("SELECT * FROM friends ORDER BY id DESC")
     fun getAllFriends(): LiveData<List<Friend>>
+
+
+    @Query("SELECT * FROM friends WHERE id = :id LIMIT 1")
+    fun getFriendById(id: Int): LiveData<Friend?>
 }
+

@@ -1,59 +1,52 @@
 package com.adista.finalproject.database
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adista.finalproject.R
+import com.adista.finalproject.databinding.ItemFriendBinding
+import java.io.FileNotFoundException
 
-class FriendAdapter(private val context: Context, private var friends: List<Friend>) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+class FriendAdapter(private var friends: List<Friend>) :
+    RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+
+    inner class FriendViewHolder(val binding: ItemFriendBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false)
-        return FriendViewHolder(itemView)
+        val binding = ItemFriendBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FriendViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         val friend = friends[position]
-        holder.bind(friend)
-    }
+        holder.binding.tvName.text = friend.name
+        holder.binding.tvSchool.text = friend.school
 
-    override fun getItemCount(): Int = friends.size
-
-    inner class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.iv_photo)
-        private val nameTextView = itemView.findViewById<TextView>(R.id.tv_name)
-        private val schoolTextView = itemView.findViewById<TextView>(R.id.tv_school)
-
-        fun bind(friend: Friend) {
-            // Set text fields
-            val photoPath = friend.photo
-
-            if (photoPath.isNotEmpty()) {
-                val bitmap = BitmapFactory.decodeFile(photoPath)
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap)
-                } else {
-                    imageView.setImageResource(R.drawable.profile)
-                }
-            } else {
-                imageView.setImageResource(R.drawable.profile)
+        if (friend.photo.isNotEmpty()) {
+            try {
+                val bitmap = BitmapFactory.decodeFile(friend.photo)
+                holder.binding.ivPhoto.setImageBitmap(bitmap)
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
             }
-
-            nameTextView.text = friend.name
-            schoolTextView.text = friend.school
-
+        } else {
+            // Fallback image jika tidak ada gambar
+            holder.binding.ivPhoto.setImageResource(R.drawable.profile)
         }
     }
 
-    fun updateData(newFriends: List<Friend>) {
-        this.friends = newFriends
-        notifyDataSetChanged()
+
+    override fun getItemCount(): Int {
+        return friends.size
     }
 
-
+    // Update data method for adapter
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(newFriends: List<Friend>) {
+        friends = newFriends
+        notifyDataSetChanged()
+    }
 }
