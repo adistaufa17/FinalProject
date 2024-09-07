@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
+//    id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs")
 }
 
@@ -59,7 +59,7 @@ dependencies {
     // ROOM
     val roomVersion = "2.6.1"
     implementation(libs.room.runtime)
-    ksp(libs.room.compiler)
+    kapt(libs.room.compiler)
 
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
@@ -74,9 +74,13 @@ dependencies {
     val lifecycleVersion = "2.6.2"
     implementation(libs.androidx.lifecycle.viewmodel.ktx.v262)
     implementation(libs.androidx.lifecycle.livedata.ktx.v262)
-    ksp(libs.androidx.lifecycle.compiler)
+    kapt(libs.androidx.lifecycle.compiler)
 
     // SDP SSP
     implementation(libs.sdp.android)
     implementation(libs.ssp.android)
+}
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
 }

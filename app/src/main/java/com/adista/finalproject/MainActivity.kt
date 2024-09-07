@@ -1,85 +1,63 @@
 package com.adista.finalproject
+
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.View
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.adista.finalproject.database.FriendAdapter
 import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private val friendViewModel: FriendViewModel by viewModels()
-
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
         handlePermissionResults(permissions)
     }
 
-    @SuppressLint("MissingInflatedId")
+    private lateinit var adapter: FriendAdapter // Declare adapter variable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // Enable edge-to-edge display
-        enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Check and request permissions
         checkAndRequestPermissions()
 
-        // Set padding based on system bars
-        val mainView = findViewById<View>(R.id.main)
-        mainView?.let { view ->
-            ViewCompat.setOnApplyWindowInsetsListener(view) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-                insets
-            }
-        }
-
-        // Handle button click to navigate to AddFriendActivity
         binding.btnAdd.setOnClickListener {
-            // Intent to go to AddFriendActivity with URI permission
             val intent = Intent(this, AddFriendActivity::class.java)
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivity(intent)
         }
 
-        // Set up RecyclerView
-        val adapter = FriendAdapter(emptyList())
+        adapter = FriendAdapter(this, emptyList()) // Initialize the adapter
+
         binding.rvShowData.adapter = adapter
 
-        // Observe data changes
         friendViewModel.getAllFriends().observe(this) { friends ->
             adapter.updateData(friends)
         }
-    }
 
-    private fun handlePermissionResults(permissions: Map<String, Boolean>) {
-        if (permissions[Manifest.permission.READ_EXTERNAL_STORAGE] == true && permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] == true) {
-            Toast.makeText(this, "Permission granted. You can now load images.", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Permission denied. Unable to access images.", Toast.LENGTH_SHORT).show()
-        }
+        binding.searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterFriends(s.toString())
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
 
     private fun checkAndRequestPermissions() {
         val permissions = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
         )
 
@@ -92,6 +70,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Other methods and overrides can remain as they are
+    private fun handlePermissionResults(permissions: Map<String, Boolean>) {
+        val allGranted = permissions.all { it.value }
 
+        if (allGranted) {
+            Toast.makeText(this, "Permissions granted. You can now access images.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Permissions denied. Unable to access images.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun filterFriends(query: String) {
+        val filteredList = if (query.isEmpty()) {
+            adapter.getData() // Get data from the adapter
+        } else {
+            adapter.getFilteredList(query) // Get filtered list from the adapter
+        }
+        adapter.updateData(filteredList)
+    }
 }

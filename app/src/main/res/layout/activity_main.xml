@@ -8,6 +8,23 @@
         android:layout_height="match_parent"
         tools:context=".pertemuan12.ListFriendActivity">
 
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/bg_search"
+            android:drawableEnd="@drawable/ic_search"
+            android:hint="@string/search"
+            android:padding="12dp"
+            android:shadowColor="@color/purple"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/rv_show_data"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="Autofill,TextContrastCheck,TextFields,VisualLintTextFieldSize"
+            tools:layout_editor_absoluteX="13dp" /> <!-- Corrected the constraint attribute -->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_show_data"
             android:layout_width="0dp"
@@ -16,7 +33,7 @@
             app:spanCount="2"
             android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
