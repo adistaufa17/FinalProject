@@ -15,7 +15,7 @@ import com.adista.finalproject.database.FriendAdapter
 import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
     private lateinit var binding: ActivityMainBinding
     private val friendViewModel: FriendViewModel by viewModels()
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        adapter = FriendAdapter(this, emptyList()) // Initialize the adapter
+        adapter = FriendAdapter(this, emptyList(), this) // Initialize the adapter
 
         binding.rvShowData.adapter = adapter
 
@@ -87,5 +87,12 @@ class MainActivity : AppCompatActivity() {
             adapter.getFilteredList(query) // Get filtered list from the adapter
         }
         adapter.updateData(filteredList)
+    }
+
+    override fun onFriendClick(friendId: Int) {
+        // Arahkan ke DetailFriendActivity dan kirimkan ID teman
+        val intent = Intent(this, DetailFriendActivity::class.java)
+        intent.putExtra("FRIEND_ID", friendId) // Mengirim ID teman ke DetailFriendActivity
+        startActivity(intent)
     }
 }

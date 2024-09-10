@@ -23,7 +23,7 @@ interface FriendDao {
     fun getAllFriends(): LiveData<List<Friend>>
 
 
-    @Query("SELECT * FROM friends WHERE id = :id LIMIT 1")
-    fun getFriendById(id: Int): LiveData<Friend?>
+    @Query("SELECT * FROM friends WHERE id = :friendId LIMIT 1")
+    fun getFriendById(friendId: Int): LiveData<Friend?>
 }
 

@@ -11,7 +11,25 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.adista.finalproject.R
 
-class FriendAdapter(private val context: Context, private var friends: List<Friend>) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+class FriendAdapter(private val context: Context,
+                    private var friends: List<Friend>,
+                    private val listener: OnFriendClickListener
+) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+
+    // Interface untuk menangani klik item
+    interface OnFriendClickListener {
+        fun onFriendClick(friendId: Int) // Dikirimkan ID teman
+    }
+
+    override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
+        val friend = friends[position]
+        holder.bind(friend)
+
+        // Set OnClickListener untuk item view
+        holder.itemView.setOnClickListener {
+            listener.onFriendClick(friend.id) // Kirim ID teman ke listener
+        }
+    }
 
     fun getData(): List<Friend> {
         return friends
@@ -26,11 +44,6 @@ class FriendAdapter(private val context: Context, private var friends: List<Frie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.item_friend, parent, false)
         return FriendViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
-        val friend = friends[position]
-        holder.bind(friend)
     }
 
     override fun getItemCount(): Int = friends.size

@@ -14,8 +14,8 @@ class FriendViewModel(application: Application) : AndroidViewModel(application) 
         return allFriends
     }
 
-    fun getFriendById(id: Int): LiveData<Friend?> {
-        return friendDao.getFriendById(id)
+    fun getFriendById(friendId: Int): LiveData<Friend?> {
+        return friendDao.getFriendById(friendId)
     }
 
     fun deleteFriend(friend: Friend) {

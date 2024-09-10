@@ -1,25 +1,16 @@
-
-
 package com.adista.finalproject
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -28,9 +19,7 @@ import com.adista.finalproject.database.FriendDatabase
 import com.adista.finalproject.databinding.ActivityAddFriendBinding
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -38,10 +27,9 @@ import java.util.Date
 class AddFriendActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddFriendBinding
-    private val imgCAPTURE = 1
-    private val reqImgPICK = 2
-    private var selectedImageUri: Uri? = null
-    private var currentPhotoPath: String? = ""
+    private var selectedImageUri: String? = null
+    private val reqImgPICK = 1
+    private val reqImgCAPTURE = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,103 +63,47 @@ class AddFriendActivity : AppCompatActivity() {
         builder.setTitle("Choose an option")
         builder.setItems(options) { _, which ->
             when (which) {
-                0 -> {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        dispatchTakePictureIntent()
-                    } else {
-                        requestPermissions(arrayOf(Manifest.permission.CAMERA), imgCAPTURE)
-                    }
-                }
+                0 -> openCamera()
                 1 -> choosePhotoFromGallery()
             }
         }
         builder.show()
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(packageManager)?.also {
-                try {
-                    val photoFile: File = createImageFile()
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        this,
-                        "com.adista.finalproject.fileprovider",
-                        photoFile
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, imgCAPTURE)
-                } catch (ex: IOException) {
-                    Toast.makeText(this, "Error occurred while creating the File", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_",
-            ".jpg",
-            storageDir
-        ).apply {
-            currentPhotoPath = absolutePath
-        }
+    private fun openCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, reqImgCAPTURE)
     }
 
     private fun choosePhotoFromGallery() {
-        val pickPhotoIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(pickPhotoIntent, reqImgPICK)
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, reqImgPICK)
     }
 
-    @Deprecated("This method has been deprecated in favor of using the Activity Result API...")
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             when (requestCode) {
-                imgCAPTURE -> {
-                    currentPhotoPath?.let {
-                        val file = File(it)
-                        if (file.exists()) {
-                            val bitmap = BitmapFactory.decodeFile(it)
-                            binding.ivPhoto.setImageBitmap(bitmap)
-                            selectedImageUri = Uri.fromFile(file)
-                        } else {
-                            Toast.makeText(this, "Image file not found", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
                 reqImgPICK -> {
                     val uri = data?.data
                     if (uri != null) {
-                        val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                        val inputStream = contentResolver.openInputStream(uri)
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        inputStream?.close()
                         binding.ivPhoto.setImageBitmap(bitmap)
-                        selectedImageUri = uri
+                        selectedImageUri = saveImageToInternalStorage(bitmap)
                     } else {
                         Toast.makeText(this, "Image URI is null", Toast.LENGTH_SHORT).show()
                     }
                 }
+                reqImgCAPTURE -> {
+                    val bitmap = data?.extras?.get("data") as Bitmap
+                    binding.ivPhoto.setImageBitmap(bitmap)
+                    selectedImageUri = saveImageToInternalStorage(bitmap)
+                }
             }
-        }
-    }
-
-
-    private fun loadImageFromUri(uri: Uri) {
-        if (isFileExists(uri)) {
-            try {
-                val inputStream = contentResolver.openInputStream(uri)
-                val bitmap = BitmapFactory.decodeStream(inputStream)
-                binding.ivPhoto.setImageBitmap(bitmap)
-                inputStream?.close()
-            } catch (e: FileNotFoundException) {
-                e.printStackTrace()
-                Toast.makeText(this, "Failed to load image: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -191,15 +123,16 @@ class AddFriendActivity : AppCompatActivity() {
     private fun saveFriendDataToDatabase() {
         val name = binding.etName.text.toString()
         val school = binding.etSchool.text.toString()
+        val bio = binding.etBio.text.toString()
         val bitmap = (binding.ivPhoto.drawable as BitmapDrawable).bitmap
-        val photoPath = saveImageToInternalStorage(applicationContext, bitmap)
+        val photoPath = saveImageToInternalStorage(bitmap)
 
-        if (name.isBlank() || school.isBlank() || photoPath.isNullOrEmpty()) {
+        if (name.isBlank() || school.isBlank() || photoPath.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val friend = Friend(name = name, school = school, bio = "", photo = photoPath)
+        val friend = Friend(name = name, school = school, bio = bio, photo = photoPath)
 
         lifecycleScope.launch {
             try {
@@ -213,33 +146,20 @@ class AddFriendActivity : AppCompatActivity() {
         }
     }
 
-    private fun isFileExists(uri: Uri): Boolean {
-        return try {
-            val inputStream = contentResolver.openInputStream(uri)
-            inputStream?.close()
-            true
-        } catch (e: FileNotFoundException) {
-            false
-        }
-    }
-
-    fun saveImageToInternalStorage(applicationContext: Context, bitmap: Bitmap): String {
-        val fileName = "${System.currentTimeMillis()}.jpg"
+    @SuppressLint("SimpleDateFormat")
+    private fun saveImageToInternalStorage(bitmap: Bitmap): String {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val fileName = "JPEG_$timeStamp.jpg"
         val file = File(getDir("images", Context.MODE_PRIVATE), fileName)
         try {
             val fos = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
             fos.close()
+            Toast.makeText(this, "Image saved successfully", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show()
         }
         return file.absolutePath
     }
-
-
 }
-
-
-
-
-
