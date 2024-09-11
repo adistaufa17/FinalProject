@@ -77,8 +77,8 @@ dependencies {
     kapt(libs.androidx.lifecycle.compiler)
 
     // SDP SSP
-    implementation(libs.sdp.android)
-    implementation(libs.ssp.android)
+    implementation (libs.ssp.android.v106)
+    implementation (libs.sdp.android.v106)
 }
 kapt {
     correctErrorTypes = true
