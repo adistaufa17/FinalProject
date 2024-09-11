@@ -43,12 +43,6 @@ class DetailFriendActivity : AppCompatActivity() {
         }
 
         binding.btnDelete.setOnClickListener {
-            friendViewModel.getFriendById(friendId).observe(this) { friend ->
-                if (friend != null) {
-                    friendViewModel.deleteFriend(friend)
-                    finish()
-                }
-            }
             showDeleteConfirmationDialog()
         }
 
@@ -56,7 +50,6 @@ class DetailFriendActivity : AppCompatActivity() {
             val destination = Intent(this, MainActivity::class.java)
             startActivity(destination)
         }
-
     }
 
     private fun loadFriendDetails(friendId: Int) {
@@ -68,8 +61,6 @@ class DetailFriendActivity : AppCompatActivity() {
             }
         }
     }
-    // Fungsi ekstensi untuk mengubah String menjadi Editable
-    fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 
     private fun bindFriendDetails(friend: Friend) {
         binding.tvName.text = friend.name.toEditable()
@@ -93,7 +84,6 @@ class DetailFriendActivity : AppCompatActivity() {
         builder.setTitle("Remove Friend")
         builder.setMessage("Are you sure you want to remove this friend?")
         builder.setPositiveButton("Remove") { _, _ ->
-            // If deleted, call deleteFriend() function
             deleteFriend()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -105,7 +95,6 @@ class DetailFriendActivity : AppCompatActivity() {
     private fun deleteFriend() {
         friendViewModel.getFriendById(friendId).observe(this@DetailFriendActivity) { friend ->
             friend?.let {
-                // Delete the friend and return to MainActivity
                 friendViewModel.deleteFriend(it)
                 val destination = Intent(this@DetailFriendActivity, MainActivity::class.java)
                 startActivity(destination)
@@ -115,4 +104,6 @@ class DetailFriendActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 }

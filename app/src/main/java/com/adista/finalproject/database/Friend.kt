@@ -7,29 +7,27 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "friends")
 data class Friend(
-    var name: String,
-    var school: String,
-    var bio: String,
-    var photo: String = ""
-) : Parcelable {
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-
+    val id: Int = 0,
+    val name: String,
+    val school: String,
+    val bio: String,
+    val photo: String
+) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: ""
-    ) {
-        id = parcel.readInt()
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(id)
         parcel.writeString(name)
         parcel.writeString(school)
         parcel.writeString(bio)
         parcel.writeString(photo)
-        parcel.writeInt(id)
     }
 
     override fun describeContents(): Int {
