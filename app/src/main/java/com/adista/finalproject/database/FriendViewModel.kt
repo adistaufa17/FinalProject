@@ -18,16 +18,6 @@ class FriendViewModel(application: Application) : AndroidViewModel(application) 
         return friendDao.getFriendById(friendId)
     }
 
-    fun updateFriend(friendId: Int, name: String, school: String, bio: String, photo: String) {
-        viewModelScope.launch {
-            val friendToUpdate = friendDao.getFriendById(friendId).value
-            friendToUpdate?.let {
-                val updatedFriend = Friend(friendId, name, school, bio, photo)
-                friendDao.updateFriend(updatedFriend)
-            }
-        }
-    }
-
     fun deleteFriend(friend: Friend) {
         viewModelScope.launch {
             friendDao.deleteFriend(friend)
