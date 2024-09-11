@@ -90,7 +90,7 @@
                 app:boxBackgroundMode="none">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
@@ -110,7 +110,7 @@
                 app:boxBackgroundMode="none">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_school"
+                    android:id="@+id/tv_school"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/school"
@@ -130,7 +130,7 @@
                 app:boxBackgroundMode="none">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_bio"
+                    android:id="@+id/tv_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/bio"
