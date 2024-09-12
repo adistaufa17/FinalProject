@@ -86,7 +86,16 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
         } else {
             adapter.getFilteredList(query) // Get filtered list from the adapter
         }
-        adapter.updateData(filteredList)
+
+        // Check if the filtered list is empty
+        if (filteredList.isEmpty()) {
+            // Launch NotFoundActivity when no results are found
+            val intent = Intent(this, NotFoundActivity::class.java)
+            startActivity(intent)
+        } else {
+            // Update the adapter with the filtered list if there are results
+            adapter.updateData(filteredList)
+        }
     }
 
     override fun onFriendClick(friendId: Int) {
