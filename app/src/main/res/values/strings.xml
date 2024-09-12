@@ -31,4 +31,6 @@
     <string name="edit_friend">Edit Friend</string>
     <string name="detail_friend">Detail Friend</string>
     <string name="search">Search</string>
+    <string name="not_found_ic">Not_Found_ic</string>
+    <string name="friend_not_found">Friend Not Found</string>
 </resources>

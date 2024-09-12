@@ -1,12 +1,14 @@
 package com.adista.finalproject
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -26,11 +28,15 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
+@Suppress("DEPRECATION")
 class EditFriendActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditFriendBinding
     private var friendId: Int = -1
     private val friendViewModel: FriendViewModel by viewModels()
+    private val reqImgCap = 1
+    private val reqImgGal = 2
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +65,62 @@ class EditFriendActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             showSaveConfirmationDialog()
         }
+
+        binding.btnCamera.setOnClickListener {
+            showImageSourceSelectionDialog()
+        }
+
     }
+
+    private fun showImageSourceSelectionDialog() {
+        val items = arrayOf("Take Photo", "Choose from Gallery")
+        AlertDialog.Builder(this)
+            .setTitle("Choose Image Source")
+            .setItems(items) { _, which ->
+                when (which) {
+                    0 -> dispatchTakePictureIntent()
+                    1 -> dispatchGalleryIntent()
+                }
+            }
+            .show()
+    }
+
+    private fun dispatchGalleryIntent() {
+        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI).also { galleryIntent ->
+            galleryIntent.type = "image/*"
+            startActivityForResult(galleryIntent, reqImgGal)
+        }
+    }
+
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun dispatchTakePictureIntent() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, reqImgCap)
+            }
+        }
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                reqImgCap -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    binding.ivPhoto.setImageBitmap(imageBitmap)
+                    saveImageToInternalStorage(imageBitmap)
+                }
+                reqImgGal -> {
+                    val selectedImageUri = data?.data
+                    val imageBitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
+                    binding.ivPhoto.setImageBitmap(imageBitmap)
+                    saveImageToInternalStorage(imageBitmap)
+                }
+            }
+        }
+    }
+
 
     private fun showSaveConfirmationDialog() {
         val builder = AlertDialog.Builder(this)

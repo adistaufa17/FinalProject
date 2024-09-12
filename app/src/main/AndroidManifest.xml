@@ -26,6 +26,9 @@
         android:theme="@style/Theme.FinalProject"
         tools:targetApi="31">
         <activity
+            android:name=".NotFoundActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailFriendActivity"
             android:exported="false" />
         <activity
