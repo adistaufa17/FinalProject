@@ -15,8 +15,8 @@
             android:orientation="horizontal">
 
             <ImageButton
-                style="@style/AppButtonMenu"
                 android:id="@+id/btn_back"
+                style="@style/AppButtonMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

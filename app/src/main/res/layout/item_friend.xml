@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="#fff">
+            android:background="@color/white">
 
             <ImageView
                 android:id="@+id/iv_photo"
@@ -25,7 +25,7 @@
                 android:layout_margin="5dp"
                 android:contentDescription="@string/photo_friend"
                 android:src="@drawable/profile"
-                tools:ignore="ImageContrastCheck" />
+              />
 
             <TextView
                 android:id="@+id/tv_name"

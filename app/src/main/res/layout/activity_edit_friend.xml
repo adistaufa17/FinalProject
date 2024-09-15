@@ -21,7 +21,7 @@
                 android:layout_margin="15dp"
                 android:layout_gravity="center"
                 android:background="@color/white"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/button_back"
                 android:src="@drawable/ic_back"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
 
@@ -55,7 +55,7 @@
                 android:id="@+id/iv_photo"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/photo_friend"
                 android:src="@drawable/profile"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/button_camera"
                 android:src="@drawable/ic_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -15,15 +15,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
             android:layout_marginHorizontal="@dimen/_10sdp"
+            android:autofillHints="@string/search"
             android:background="@drawable/bg_search"
             android:drawableEnd="@drawable/ic_search"
             android:hint="@string/search"
+            android:inputType="text"
             android:padding="12dp"
             android:shadowColor="@color/purple"
             android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@id/rv_show_data"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="Autofill,TextContrastCheck,TextFields,VisualLintTextFieldSize"
             tools:layout_editor_absoluteX="13dp" /> <!-- Corrected the constraint attribute -->
 
         <androidx.recyclerview.widget.RecyclerView
@@ -45,10 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
+            android:contentDescription="@string/button_add"
             android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+          />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

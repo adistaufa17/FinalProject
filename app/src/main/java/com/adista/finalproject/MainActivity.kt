@@ -16,112 +16,97 @@ import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
-
-    // Variabel untuk binding tampilan activity
     private lateinit var binding: ActivityMainBinding
-
-    // ViewModel untuk mengambil data teman dari database
     private val friendViewModel: FriendViewModel by viewModels()
-
-    // Pendaftaran launcher untuk meminta beberapa izin sekaligus
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        handlePermissionResults(permissions) // Memanggil fungsi untuk menangani hasil izin
+        handlePermissionResults(permissions)
     }
 
-    // Variabel adapter untuk RecyclerView
-    private lateinit var adapter: FriendAdapter
+    private lateinit var adapter: FriendAdapter // Declare adapter variable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inisialisasi view binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Memeriksa dan meminta izin yang diperlukan
         checkAndRequestPermissions()
 
-        // Mengatur tindakan ketika tombol "Add" ditekan
         binding.btnAdd.setOnClickListener {
             val intent = Intent(this, AddFriendActivity::class.java)
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) // Memberikan izin baca URI gambar
-            startActivity(intent) // Memulai AddFriendActivity
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivity(intent)
         }
 
-        // Inisialisasi adapter dengan data kosong
-        adapter = FriendAdapter(this, emptyList(), this)
+        adapter = FriendAdapter(this, emptyList(), this) // Initialize the adapter
 
-        // Mengatur adapter pada RecyclerView
         binding.rvShowData.adapter = adapter
 
-        // Mengamati perubahan data teman dari ViewModel
         friendViewModel.getAllFriends().observe(this) { friends ->
-            adapter.updateData(friends) // Memperbarui data pada adapter saat ada perubahan
+            adapter.updateData(friends)
         }
 
-        // Menambahkan listener untuk kolom pencarian (search bar)
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                filterFriends(s.toString()) // Memfilter teman berdasarkan input pencarian
+                filterFriends(s.toString())
             }
             override fun afterTextChanged(s: Editable?) {}
         })
     }
 
-    // Fungsi untuk memeriksa dan meminta izin yang diperlukan (baca penyimpanan dan kamera)
     private fun checkAndRequestPermissions() {
-        val permissions = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-        )
+        val permissions = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            arrayOf(Manifest.permission.CAMERA) // No need for READ_EXTERNAL_STORAGE on Android 10+
+        } else {
+            arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
+            )
+        }
 
-        // Filter izin yang belum diberikan oleh pengguna
         val deniedPermissions = permissions.filter { permission ->
             ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED
         }
 
-        // Jika ada izin yang ditolak, minta izin tersebut
         if (deniedPermissions.isNotEmpty()) {
             requestPermissionLauncher.launch(deniedPermissions.toTypedArray())
         }
     }
 
-    // Fungsi untuk menangani hasil dari permintaan izin
-    private fun handlePermissionResults(permissions: Map<String, Boolean>) {
-        val allGranted = permissions.all { it.value } // Memeriksa apakah semua izin diberikan
 
-        if (allGranted) {
-            Toast.makeText(this, "Semua izin diberikan. Sekarang Anda bisa mengakses gambar.", Toast.LENGTH_SHORT).show()
+    private fun handlePermissionResults(permissions: Map<String, Boolean>) {
+        val deniedPermissions = permissions.filter { !it.value } // Mencari izin yang ditolak
+
+        if (deniedPermissions.isEmpty()) {
+            Toast.makeText(this, "Semua izin diberikan.", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Beberapa izin ditolak. Tidak bisa mengakses gambar.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Beberapa izin ditolak: ${deniedPermissions.keys.joinToString()}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Fungsi untuk memfilter data teman berdasarkan input pencarian
     private fun filterFriends(query: String) {
         val filteredList = if (query.isEmpty()) {
-            adapter.getData() // Jika pencarian kosong, ambil data penuh
+            adapter.getData() // Get data from the adapter
         } else {
-            adapter.getFilteredList(query) // Jika ada input, ambil daftar teman yang difilter
+            adapter.getFilteredList(query) // Get filtered list from the adapter
         }
 
-        // Memeriksa apakah daftar teman hasil pencarian kosong
+        // Check if the filtered list is empty
         if (filteredList.isEmpty()) {
-            // Jika tidak ada hasil pencarian, buka NotFoundActivity
+            // Launch NotFoundActivity when no results are found
             val intent = Intent(this, NotFoundActivity::class.java)
             startActivity(intent)
         } else {
-            // Jika ada hasil pencarian, perbarui data adapter dengan hasil filter
+            // Update the adapter with the filtered list if there are results
             adapter.updateData(filteredList)
         }
     }
 
-    // Fungsi yang dipanggil ketika item teman di klik pada RecyclerView
     override fun onFriendClick(friendId: Int) {
-        // Membuka DetailFriendActivity dan mengirimkan ID teman yang dipilih
+        // Arahkan ke DetailFriendActivity dan kirimkan ID teman
         val intent = Intent(this, DetailFriendActivity::class.java)
         intent.putExtra("FRIEND_ID", friendId) // Mengirim ID teman ke DetailFriendActivity
-        startActivity(intent) // Memulai DetailFriendActivity
+        startActivity(intent)
     }
 }
