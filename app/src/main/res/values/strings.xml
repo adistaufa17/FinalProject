@@ -37,4 +37,5 @@
     <string name="input_friend_bio">Input Friend Bio</string>
     <string name="input_friend_school">Input Friend School</string>
     <string name="input_friend_name">Input Friend Name</string>
+    <string name="image_view_not_found">Image View Not Found</string>
 </resources>
