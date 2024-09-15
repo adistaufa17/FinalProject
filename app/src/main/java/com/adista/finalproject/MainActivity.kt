@@ -6,12 +6,14 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.adista.finalproject.database.FriendAdapter
+import com.adista.finalproject.adapter.FriendAdapter
 import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityMainBinding
 
@@ -46,13 +48,23 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
             adapter.updateData(friends)
         }
 
+
         binding.searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                filterFriends(s.toString())
+                if (s.toString().isEmpty()) {
+                    adapter.updateData(adapter.getData()) // Tampilkan semua data asli
+                    binding.ivNotFound.visibility = View.GONE
+                    binding.rvShowData.visibility = View.VISIBLE
+                } else {
+                    filterFriends(s.toString())
+                }
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
+
     }
 
     private fun checkAndRequestPermissions() {
@@ -86,19 +98,27 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
     }
 
     private fun filterFriends(query: String) {
+        Log.d("MainActivity", "filterFriends: query = $query") // Tambahkan log debug
+
         val filteredList = if (query.isEmpty()) {
-            adapter.getData() // Get data from the adapter
+            adapter.getData() // Jika pencarian kosong, ambil data penuh
         } else {
-            adapter.getFilteredList(query) // Get filtered list from the adapter
+            adapter.getFilteredList(query) // Gunakan getFilteredList untuk filter
         }
 
-        // Check if the filtered list is empty
+        Log.d("MainActivity", "filterFriends: filteredList.size = ${filteredList.size}") // Tambahkan log debug
+
+
+        // Memeriksa apakah daftar teman hasil pencarian kosong
         if (filteredList.isEmpty()) {
-            // Launch NotFoundActivity when no results are found
-            val intent = Intent(this, NotFoundActivity::class.java)
-            startActivity(intent)
+            // Jika tidak ada hasil pencarian, tampilkan gambar atau pesan "Pencarian tidak ditemukan"
+            binding.ivNotFound.visibility = View.VISIBLE
+            binding.rvShowData.visibility = View.GONE
+            Toast.makeText(this, "Friend Not Found", Toast.LENGTH_SHORT).show()
         } else {
-            // Update the adapter with the filtered list if there are results
+            // Jika ada hasil pencarian, perbarui data adapter dengan hasil filter
+            binding.ivNotFound.visibility = View.GONE
+            binding.rvShowData.visibility = View.VISIBLE
             adapter.updateData(filteredList)
         }
     }

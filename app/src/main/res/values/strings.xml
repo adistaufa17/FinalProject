@@ -34,4 +34,7 @@
     <string name="image_profile">image profile</string>
     <string name="page_welcome">page welcome</string>
     <string name="button_camera">button camera</string>
+    <string name="input_friend_bio">Input Friend Bio</string>
+    <string name="input_friend_school">Input Friend School</string>
+    <string name="input_friend_name">Input Friend Name</string>
 </resources>

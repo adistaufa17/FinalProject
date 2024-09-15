@@ -11,8 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="460dp"
         android:src="@drawable/welcome"
-        android:contentDescription="@string/page_welcome"
-       />
+        android:contentDescription="@string/page_welcome" />
 
     <TextView
         android:id="@+id/tv_welcome"
@@ -28,12 +27,13 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:text="@string/des"
-      />
+        tools:ignore="VisualLintLongText" />
 
     <Button
         android:id="@+id/btn_Start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="@string/start" />
+        android:text="@string/start"
+        tools:ignore="DuplicateSpeakableTextCheck,VisualLintButtonSize" />
 </LinearLayout>

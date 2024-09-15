@@ -19,11 +19,11 @@
                 style="@style/AppButtonMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
                 android:layout_gravity="center"
+                android:layout_margin="15dp"
                 android:contentDescription="@string/button_back"
                 android:src="@drawable/ic_back"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,DuplicateSpeakableTextCheck" />
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,RedundantDescriptionCheck" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
                 style="@style/AppButtonMenu"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:layout_marginStart="@dimen/_150sdp"
+                android:layout_marginStart="@dimen/_130sdp"
                 android:layout_marginTop="15dp"
                 android:background="@color/white"
                 android:contentDescription="@string/button_save"
@@ -71,7 +71,7 @@
                 android:src="@drawable/ic_camera"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck,RedundantDescriptionCheck" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="8dp"
-                    android:hint="@string/name"
+                    android:hint="@string/input_friend_name"
                     tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_school"
                     android:drawablePadding="8dp"
-                    android:hint="@string/school"
+                    android:hint="@string/input_friend_school"
                     tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_info"
                     android:drawablePadding="8dp"
-                    android:hint="@string/bio"
+                    android:hint="@string/input_friend_bio"
                     tools:ignore="VisualLintTextFieldSize,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

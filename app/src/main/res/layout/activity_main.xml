@@ -23,9 +23,22 @@
             android:padding="12dp"
             android:shadowColor="@color/purple"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/rv_show_data"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="13dp" /> <!-- Corrected the constraint attribute -->
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivNotFound"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:text="Friend Not Found"
+            android:src="@drawable/not_found"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/rv_show_data"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_show_data"
@@ -35,7 +48,7 @@
             app:spanCount="2"
             android:clipToPadding="true"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:layout_constraintTop_toBottomOf="@id/ivNotFound"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +63,10 @@
             android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-          />
+            />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>
