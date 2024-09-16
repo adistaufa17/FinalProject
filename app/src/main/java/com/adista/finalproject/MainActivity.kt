@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.adista.finalproject.adapter.FriendAdapter
+import com.adista.finalproject.database.Friend
 import com.adista.finalproject.database.FriendViewModel
 import com.adista.finalproject.databinding.ActivityMainBinding
 
@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
     }
 
     private lateinit var adapter: FriendAdapter // Declare adapter variable
+    private var originalData: List<Friend> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
         binding.rvShowData.adapter = adapter
 
         friendViewModel.getAllFriends().observe(this) { friends ->
+            originalData = friends // Simpan data asli
             adapter.updateData(friends)
         }
 
@@ -54,14 +56,13 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.toString().isEmpty()) {
-                    adapter.updateData(adapter.getData()) // Tampilkan semua data asli
+                    adapter.updateData(originalData) // Tampilkan semua data asli
                     binding.ivNotFound.visibility = View.GONE
                     binding.rvShowData.visibility = View.VISIBLE
                 } else {
                     filterFriends(s.toString())
                 }
             }
-
             override fun afterTextChanged(s: Editable?) {}
         })
 
@@ -98,30 +99,21 @@ class MainActivity : AppCompatActivity(), FriendAdapter.OnFriendClickListener {
     }
 
     private fun filterFriends(query: String) {
-        Log.d("MainActivity", "filterFriends: query = $query") // Tambahkan log debug
-
-        val filteredList = if (query.isEmpty()) {
-            adapter.getData() // Jika pencarian kosong, ambil data penuh
-        } else {
-            adapter.getFilteredList(query) // Gunakan getFilteredList untuk filter
+        val filteredList = originalData.filter {
+            it.name.contains(query, ignoreCase = true)
         }
 
-        Log.d("MainActivity", "filterFriends: filteredList.size = ${filteredList.size}") // Tambahkan log debug
-
-
-        // Memeriksa apakah daftar teman hasil pencarian kosong
         if (filteredList.isEmpty()) {
-            // Jika tidak ada hasil pencarian, tampilkan gambar atau pesan "Pencarian tidak ditemukan"
             binding.ivNotFound.visibility = View.VISIBLE
             binding.rvShowData.visibility = View.GONE
             Toast.makeText(this, "Friend Not Found", Toast.LENGTH_SHORT).show()
         } else {
-            // Jika ada hasil pencarian, perbarui data adapter dengan hasil filter
             binding.ivNotFound.visibility = View.GONE
             binding.rvShowData.visibility = View.VISIBLE
             adapter.updateData(filteredList)
         }
     }
+
 
     override fun onFriendClick(friendId: Int) {
         // Arahkan ke DetailFriendActivity dan kirimkan ID teman
