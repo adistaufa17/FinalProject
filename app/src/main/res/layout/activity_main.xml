@@ -36,7 +36,6 @@
             android:contentDescription="@string/image_view_not_found"
             android:padding="5dp"
             android:visibility="gone"
-            android:text="@string/friend_not_found"
             android:src="@drawable/not_found"
             app:layout_constraintTop_toBottomOf="@id/search_bar"
             app:layout_constraintStart_toStartOf="parent"
